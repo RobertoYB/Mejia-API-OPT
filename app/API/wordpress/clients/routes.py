@@ -42,7 +42,9 @@ def create_clients():
         data = {
             "first_name": client['name'],
             "email": client['email'],
-            "phone": client['phone'],
+            "billing": {
+                "phone": client['phone']
+            },
             "meta_data": [
                 {
                     "key": "odoo_partner",
