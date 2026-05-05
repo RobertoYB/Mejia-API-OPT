@@ -13,7 +13,7 @@ def create_clients():
         settings.ODOO_PASSWORD,
         'res.partner',
         'search_read',
-        [[]],
+        [[['customer_rank', '>', 0]]],
         {'fields': ['id', 'name', 'email', 'phone']}
     )
 
