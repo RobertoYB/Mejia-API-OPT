@@ -40,7 +40,7 @@ def create_clients():
             continue
 
         data = {
-            "name": client['name'],
+            "first_name": client['name'],
             "email": client['email'],
             "phone": client['phone'],
             "meta_data": [
