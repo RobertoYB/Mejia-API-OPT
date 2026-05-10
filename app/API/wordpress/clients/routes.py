@@ -14,7 +14,7 @@ def create_clients():
         'res.partner',
         'search_read',
         [[['customer_rank', '>', 0]]],
-        {'fields': ['id', 'name', 'email', 'phone']}
+        {'fields': ['id', 'name', 'email', 'phone', 'city', 'street','country_id']}
     )
 
     created = []
@@ -40,10 +40,18 @@ def create_clients():
             continue
 
         data = {
-            "first_name": client['name'],
             "email": client['email'],
+            "first_name": client['name'],
             "billing": {
-                "phone": client['phone']
+                "address_1": client['street'] or "",
+                "city": client['city'] or "",
+                "country": client['country_id'][1] if client['country_id'] else "",
+                "phone": client['phone'] or ""
+            },
+            "shipping":{
+                "address_1": client['street'] or "",
+                "city": client['city'] or "",
+                "country": client['country_id'][1] if client['country_id'] else "",
             },
             "meta_data": [
                 {
