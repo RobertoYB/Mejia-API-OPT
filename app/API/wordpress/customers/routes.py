@@ -6,7 +6,7 @@ router = APIRouter()
 
 
 @router.get("/", response_model=list[CustomerOut])
-def get_customers(per_page: int = 100):
+def obtener_clientes(per_page: int = 100):
     """
     Obtiene la lista de clientes de WordPress/WooCommerce
     
