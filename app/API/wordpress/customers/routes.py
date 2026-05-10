@@ -1,0 +1,40 @@
+from fastapi import APIRouter, HTTPException
+from app.Core.woocommerce_client import wcapi
+from .schema_json import CustomerOut
+
+router = APIRouter()
+
+
+@router.get("/", response_model=list[CustomerOut])
+def get_customers(per_page: int = 100):
+    """
+    Obtiene la lista de clientes de WordPress/WooCommerce
+    
+    - **per_page**: Número de clientes a obtener (máximo 100)
+    """
+    try:
+        response = wcapi.get("customers", params={"per_page": per_page})
+
+        if response.status_code != 200:
+            raise HTTPException(
+                status_code=response.status_code,
+                detail=response.text
+            )
+
+        customers = response.json()
+
+        clean_customers = []
+
+        for customer in customers:
+            clean_customers.append({
+                "id": customer["id"],
+                "username": customer["username"],
+                "email": customer["email"],
+                "first_name": customer.get("first_name", ""),
+                "last_name": customer.get("last_name", "")
+            })
+
+        return clean_customers
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
